@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "undo-frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "port": 3000,
+      "cwd": "/Users/gabrielsachs/undo_app_v2/frontend"
+    }
+  ]
+}
