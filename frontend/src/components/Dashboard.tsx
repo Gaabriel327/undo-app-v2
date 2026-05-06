@@ -9,7 +9,7 @@ import { CATEGORY_LABELS } from '../types';
 
 function getMode(): 'morning' | 'evening' {
   const h = new Date().getHours();
-  return h >= 17 || h < 5 ? 'evening' : 'morning';
+  return h >= 18 || h < 5 ? 'evening' : 'morning';
 }
 
 function greeting(firstName?: string): string {

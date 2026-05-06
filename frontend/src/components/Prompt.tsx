@@ -9,13 +9,13 @@ import { CATEGORY_LABELS } from '../types';
 
 function getMode(): 'morning' | 'evening' {
   const h = new Date().getHours();
-  return h >= 17 || h < 5 ? 'evening' : 'morning';
+  return h >= 18 || h < 5 ? 'evening' : 'morning';
 }
 
 export default function Prompt() {
   const navigate = useNavigate();
   const { user, setUser } = useAuth();
-  const [mode, setMode] = useState<'morning' | 'evening'>(getMode());
+  const mode = getMode();
   const [question, setQuestion] = useState<Question | null>(null);
   const [answer, setAnswer] = useState('');
   const [loading, setLoading] = useState(true);
@@ -25,7 +25,7 @@ export default function Prompt() {
 
   const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
 
-  useEffect(() => { loadQuestion(); }, [mode]);
+  useEffect(() => { loadQuestion(); }, []); // eslint-disable-line
 
   const loadQuestion = async () => {
     setLoading(true);
@@ -109,17 +109,11 @@ export default function Prompt() {
         <div className="w-8" />
       </div>
 
-      {/* Segmented control */}
-      <div className="segmented-control mb-6">
-        {(['morning', 'evening'] as const).map((m) => (
-          <button
-            key={m}
-            onClick={() => setMode(m)}
-            className={`segmented-control-item ${mode === m ? 'active' : ''}`}
-          >
-            {m === 'morning' ? 'Morgen' : 'Abend'}
-          </button>
-        ))}
+      {/* Mode indicator */}
+      <div className="mb-6">
+        <span className="badge">
+          {mode === 'morning' ? 'Morgenreflexion' : 'Abendreflexion'}
+        </span>
       </div>
 
       {/* Question card */}
