@@ -113,7 +113,7 @@ export default function ReflectionDetail() {
           animate={{ opacity: 1, y: 0 }}
           className="card p-5"
         >
-          <p className="section-header mb-3">Psychologisches Feedback</p>
+          <p className="section-header mb-3">Feedback</p>
           <div className="w-10 h-px bg-black dark:bg-white mb-4" />
           <p className="ios-text-body text-black dark:text-white leading-relaxed">
             {reflection.feedback}
@@ -133,7 +133,7 @@ export default function ReflectionDetail() {
                 Feedback wird erstellt...
               </span>
             ) : (
-              'Psychologisches Feedback erhalten'
+              'Feedback erhalten'
             )}
           </button>
           {user?.subscription !== 'pro' && (

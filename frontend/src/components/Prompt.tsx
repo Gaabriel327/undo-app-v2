@@ -87,7 +87,7 @@ export default function Prompt() {
           )}
           <div className="flex flex-col gap-3 mt-8">
             <button className="btn-primary w-full" onClick={() => navigate(`/reflections/${submitted.id}`)}>
-              Psychologisches Feedback
+              Feedback erhalten
             </button>
             <button className="btn-secondary w-full" onClick={() => navigate('/')}>
               Zum Dashboard

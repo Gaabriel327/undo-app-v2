@@ -126,13 +126,12 @@ router.post('/:id/feedback', authenticateToken, async (req, res) => {
           user.chance ? `Grösstes Potenzial: ${user.chance}` : null,
         ].filter(Boolean);
 
-        const systemPrompt = `Du bist ein erfahrener Psychologe mit Spezialisierung auf Persönlichkeitsentwicklung, humanistische Psychologie und kognitive Verhaltenstherapie. Du begleitest Menschen in ihrer täglichen Selbstreflexion.
+        const systemPrompt = `Du bist die innere Stimme der Person — ehrlich, klar und ohne Umwege. Du sprichst sie direkt an, als würdest du ihr ins Gesicht schauen. Nicht als Therapeut, nicht als Coach, sondern als die ehrlichste Version ihrer selbst.
 
-Deine Rückmeldungen sind präzise, klar und psychologisch fundiert. Du vermeidest Floskeln, überschwängliches Lob und oberflächliche Ermutigung. Stattdessen benennst du konkrete Muster, stellst vertiefende Fragen oder gibst handlungsrelevante Impulse — basierend ausschliesslich auf dem, was die Person geschrieben hat.
+Du sagst, was wirklich dahintersteckt. Du erkennst, was sie vielleicht noch nicht ausgesprochen haben. Du machst ihnen kein schlechtes Gewissen, aber du beschönigst auch nichts. Du sprichst sie mit "du" an — persönlich, direkt, auf Augenhöhe.
 
-Sprache: Deutsch. Ton: ruhig, direkt, professionell — wie ein Therapeut in einer Sitzung, nicht wie ein Motivationscoach.
-Länge: 3 bis 5 prägnante Sätze. Keine Aufzählungen. Kein Emoji.
-${contextLines.length > 0 ? '\nKontext zur Person:\n' + contextLines.join('\n') : ''}`;
+Dein Feedback ist kurz und trifft. Keine Theorie, keine Fachbegriffe, keine Listen. Nur 3 bis 4 Sätze, die sitzen. Kein Emoji.
+${contextLines.length > 0 ? '\nWas du über die Person weißt:\n' + contextLines.join('\n') : ''}`;
 
         const completion = await openai.chat.completions.create({
           model: 'gpt-4o-mini',
@@ -174,12 +173,12 @@ ${contextLines.length > 0 ? '\nKontext zur Person:\n' + contextLines.join('\n') 
 function fallbackFeedback(answer) {
   const words = answer.trim().split(/\s+/).length;
   if (words < 20) {
-    return 'Diese Antwort deutet auf eine erste Beobachtung hin. Für eine tiefere Arbeit an dir selbst wäre es hilfreich, die Situation konkreter zu beschreiben: Was genau hast du wahrgenommen, und welcher Gedanke oder welches Gefühl stand dahinter?';
+    return 'Du hast etwas angetippt, aber noch nicht wirklich hingeschaut. Was genau ist da passiert — und was hast du dabei gespürt? Geh nochmal rein.';
   }
   if (words < 50) {
-    return 'Du hast eine relevante Beobachtung formuliert. In der psychologischen Selbstreflexion ist der nächste Schritt, die Verbindung zwischen dem Beschriebenen und einem wiederkehrenden Muster in deinem Erleben zu untersuchen. Welche Situationen in deiner Vergangenheit erinnern dich daran?';
+    return 'Du siehst es schon. Jetzt stell dir die Frage, ob das ein einmaliger Moment war oder ob du dieses Muster schon öfter kennst. Wahrscheinlich kennst du es.';
   }
-  return 'Deine Reflexion zeigt eine ernsthafte Auseinandersetzung mit dir selbst. Was du beschreibst, enthält bereits Ansätze zur Selbsterkenntnis — entscheidend ist nun, daraus konkrete Handlungsschritte abzuleiten. Formuliere eine spezifische Situation, in der du das Erkannte bewusst anders angehen möchtest.';
+  return 'Du bist ehrlich mit dir — das ist keine Kleinigkeit. Was du hier beschreibst, weißt du eigentlich schon. Die Frage ist nicht mehr was, sondern wann du anfängst, es wirklich anders zu machen.';
 }
 
 // GET /api/reflections
