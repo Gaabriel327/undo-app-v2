@@ -115,4 +115,23 @@ export const ApiService = {
       '/tokens/redeem',
       { method: 'POST', body: JSON.stringify({ code }) }
     ),
+
+  // Push notifications
+  getVapidPublicKey: () =>
+    request<{ key: string }>('/push/vapid-public-key'),
+
+  getPushStatus: () =>
+    request<{ subscribed: boolean; morningTime: string; eveningTime: string }>('/push/status'),
+
+  subscribePush: (subscription: object, morningTime: string, eveningTime: string) =>
+    request<{ success: boolean }>('/push/subscribe', {
+      method: 'POST',
+      body: JSON.stringify({ subscription, morningTime, eveningTime }),
+    }),
+
+  unsubscribePush: (endpoint: string) =>
+    request<{ success: boolean }>('/push/unsubscribe', {
+      method: 'DELETE',
+      body: JSON.stringify({ endpoint }),
+    }),
 };

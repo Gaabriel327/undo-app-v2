@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sun, Moon, SignOut } from '@phosphor-icons/react';
+import { Sun, Moon, SignOut, Bell, BellSlash } from '@phosphor-icons/react';
 import { ApiService } from '../services/ApiService';
 import { useAuth } from '../App';
 import DatePicker from './DatePicker';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 
 export default function Profile() {
   const { user, setUser, logout, darkMode, toggleDarkMode } = useAuth();
+  const push = usePushNotifications();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isOnboarding = searchParams.get('onboarding') === 'true';
@@ -283,6 +285,72 @@ export default function Profile() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Push Notifications */}
+          {push.supported && (
+            <>
+              <p className="section-header mb-2 px-1 mt-6">Erinnerungen</p>
+              <div className="list-group mb-4">
+                <div className="list-row">
+                  <span className="ios-text-subhead text-black dark:text-white flex-1">
+                    Tägliche Erinnerung
+                  </span>
+                  <button
+                    onClick={() => push.subscribed ? push.unsubscribe() : push.subscribe()}
+                    disabled={push.loading}
+                    className={`flex items-center gap-2 ios-text-subhead font-medium transition-colors ${
+                      push.subscribed
+                        ? 'text-black dark:text-white'
+                        : 'text-[rgba(60,60,67,0.4)] dark:text-[rgba(235,235,245,0.35)]'
+                    }`}
+                  >
+                    {push.loading ? (
+                      <div className="w-4 h-4 rounded-full border-2 border-neutral-300 border-t-neutral-700 animate-spin" />
+                    ) : push.subscribed ? (
+                      <><Bell size={16} weight="fill" /> An</>
+                    ) : (
+                      <><BellSlash size={16} weight="regular" /> Aus</>
+                    )}
+                  </button>
+                </div>
+
+                {push.subscribed && (
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div
+                        className="px-4 pb-4 pt-3 bg-white dark:bg-[#1C1C1E] space-y-3"
+                        style={{ borderTop: '0.5px solid rgba(60,60,67,0.1)' }}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="ios-text-subhead text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.5)]">Morgen</span>
+                          <input
+                            type="time"
+                            value={push.morningTime}
+                            onChange={(e) => push.updateTimes(e.target.value, push.eveningTime)}
+                            className="bg-transparent ios-text-subhead text-black dark:text-white focus:outline-none"
+                          />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="ios-text-subhead text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.5)]">Abend</span>
+                          <input
+                            type="time"
+                            value={push.eveningTime}
+                            onChange={(e) => push.updateTimes(push.morningTime, e.target.value)}
+                            className="bg-transparent ios-text-subhead text-black dark:text-white focus:outline-none"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                )}
+              </div>
+            </>
+          )}
 
           <button
             onClick={logout}
