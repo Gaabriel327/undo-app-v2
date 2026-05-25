@@ -116,6 +116,20 @@ export const ApiService = {
       { method: 'POST', body: JSON.stringify({ code }) }
     ),
 
+  getGrowth: () =>
+    request<{
+      first: { answer: string; question: string; created_at: string } | null;
+      latest: { answer: string; question: string; created_at: string } | null;
+      firstWords: number;
+      latestWords: number;
+      avgFirst: number;
+      avgLast: number;
+      totalWords: number;
+      thisWeekCount: number;
+      topCategoryThisWeek: string | null;
+      daysSinceStart: number;
+    }>('/reflections/growth'),
+
   // Push notifications
   getVapidPublicKey: () =>
     request<{ key: string }>('/push/vapid-public-key'),

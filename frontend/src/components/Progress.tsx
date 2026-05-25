@@ -8,16 +8,33 @@ import type { ReflectionStats } from '../types';
 import { CATEGORY_LABELS } from '../types';
 import { useAuth } from '../App';
 
+interface GrowthData {
+  first: { answer: string; question: string; created_at: string } | null;
+  latest: { answer: string; question: string; created_at: string } | null;
+  firstWords: number;
+  latestWords: number;
+  avgFirst: number;
+  avgLast: number;
+  totalWords: number;
+  thisWeekCount: number;
+  topCategoryThisWeek: string | null;
+  daysSinceStart: number;
+}
+
 export default function Progress() {
   const { darkMode } = useAuth();
   const [stats, setStats] = useState<ReflectionStats | null>(null);
+  const [growth, setGrowth] = useState<GrowthData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    ApiService.getStats()
-      .then(setStats)
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    Promise.all([
+      ApiService.getStats(),
+      ApiService.getGrowth(),
+    ]).then(([s, g]) => {
+      setStats(s);
+      setGrowth(g);
+    }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   if (loading) {
@@ -126,7 +143,7 @@ export default function Progress() {
 
       {/* Top category */}
       {topCat && topCat.score > 50 && (
-        <div className="card p-5 flex items-center justify-between">
+        <div className="card p-5 mb-4 flex items-center justify-between">
           <div>
             <p className="section-header mb-1">Deine Stärke</p>
             <p className="ios-text-headline text-black dark:text-white">
@@ -136,6 +153,96 @@ export default function Progress() {
           <span className="ios-text-title1 text-black dark:text-white tabular-nums">
             {Math.round(topCat.score)}
           </span>
+        </div>
+      )}
+
+      {/* ── Deine Reise ── */}
+      {growth && growth.daysSinceStart >= 3 && (
+        <div className="mb-4">
+          <p className="section-header mb-3 px-1">Deine Reise</p>
+
+          {/* Total words */}
+          <div className="card p-5 mb-3">
+            <div className="flex items-end justify-between">
+              <div>
+                <p className="ios-text-title1 text-black dark:text-white tabular-nums">
+                  {growth.totalWords.toLocaleString('de-DE')}
+                </p>
+                <p className="ios-text-footnote text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.4)] mt-1">
+                  Wörter seit dem ersten Tag
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="ios-text-caption text-[rgba(60,60,67,0.4)] dark:text-[rgba(235,235,245,0.35)]">
+                  {growth.daysSinceStart} Tage dabei
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Word depth growth */}
+          {growth.avgFirst > 0 && growth.avgLast > growth.avgFirst && (
+            <div className="card p-5 mb-3">
+              <p className="section-header mb-4">Tiefe deiner Antworten</p>
+              <div className="flex items-end gap-4">
+                <div className="flex-1">
+                  <p className="ios-text-caption text-[rgba(60,60,67,0.45)] dark:text-[rgba(235,235,245,0.35)] mb-2">
+                    Anfang
+                  </p>
+                  <div className="h-1.5 bg-[rgba(120,120,128,0.12)] dark:bg-[rgba(120,120,128,0.24)] rounded-full overflow-hidden mb-1.5">
+                    <div
+                      className="h-full bg-[rgba(60,60,67,0.25)] dark:bg-[rgba(235,235,245,0.25)] rounded-full"
+                      style={{ width: `${Math.min(100, (growth.avgFirst / Math.max(growth.avgFirst, growth.avgLast)) * 100)}%` }}
+                    />
+                  </div>
+                  <p className="ios-text-caption font-semibold text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.4)]">
+                    {growth.avgFirst} Wörter
+                  </p>
+                </div>
+                <div className="flex-1">
+                  <p className="ios-text-caption text-black dark:text-white font-medium mb-2">
+                    Heute
+                  </p>
+                  <div className="h-1.5 bg-[rgba(120,120,128,0.12)] dark:bg-[rgba(120,120,128,0.24)] rounded-full overflow-hidden mb-1.5">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: '100%' }}
+                      transition={{ duration: 0.9, ease: 'easeOut' }}
+                      className="h-full bg-black dark:bg-white rounded-full"
+                    />
+                  </div>
+                  <p className="ios-text-caption font-semibold text-black dark:text-white">
+                    {growth.avgLast} Wörter
+                  </p>
+                </div>
+              </div>
+              <p className="ios-text-caption text-[rgba(60,60,67,0.45)] dark:text-[rgba(235,235,245,0.35)] mt-4">
+                Deine Antworten sind{' '}
+                <span className="text-black dark:text-white font-semibold">
+                  {Math.round(((growth.avgLast - growth.avgFirst) / growth.avgFirst) * 100)}% tiefer
+                </span>{' '}
+                als am Anfang.
+              </p>
+            </div>
+          )}
+
+          {/* First reflection */}
+          {growth.first && (
+            <div className="card p-5">
+              <p className="section-header mb-3">Wo du angefangen hast</p>
+              <p className="ios-text-caption text-[rgba(60,60,67,0.4)] dark:text-[rgba(235,235,245,0.35)] mb-2">
+                {new Date(growth.first.created_at).toLocaleDateString('de-DE', {
+                  day: 'numeric', month: 'long', year: 'numeric',
+                })}
+              </p>
+              <p className="ios-text-footnote text-black dark:text-white font-medium mb-2 leading-relaxed">
+                {growth.first.question}
+              </p>
+              <p className="ios-text-caption text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.5)] leading-relaxed line-clamp-4">
+                "{growth.first.answer}"
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

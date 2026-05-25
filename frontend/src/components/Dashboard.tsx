@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ArrowRight } from '@phosphor-icons/react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Warning } from '@phosphor-icons/react';
 import { useAuth } from '../App';
 import { ApiService } from '../services/ApiService';
 import type { Reflection } from '../types';
@@ -21,23 +21,90 @@ function greeting(firstName?: string): string {
   return `Gute Nacht${n}`;
 }
 
+interface GrowthData {
+  thisWeekCount: number;
+  topCategoryThisWeek: string | null;
+  totalWords: number;
+  avgFirst: number;
+  avgLast: number;
+  daysSinceStart: number;
+}
+
 export default function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [recent, setRecent] = useState<Reflection[]>([]);
+  const [growth, setGrowth] = useState<GrowthData | null>(null);
+  const [showStreakWarning, setShowStreakWarning] = useState(false);
   const mode = getMode();
 
   useEffect(() => {
     ApiService.getReflections(1, 3)
       .then((r) => setRecent(r.reflections))
       .catch(() => {});
+    ApiService.getGrowth()
+      .then(setGrowth)
+      .catch(() => {});
   }, []);
 
   const today = new Date().toISOString().split('T')[0];
   const reflectedToday = user?.last_reflection_date === today;
+  const streak = user?.streak ?? 0;
+
+  // Show streak warning in the evening if not yet reflected and streak > 0
+  useEffect(() => {
+    const h = new Date().getHours();
+    if (!reflectedToday && streak > 0 && h >= 18) {
+      const dismissed = sessionStorage.getItem('streak_warning_dismissed');
+      if (!dismissed) setShowStreakWarning(true);
+    }
+  }, [reflectedToday, streak]);
+
+  const wordGrowth = growth && growth.avgFirst > 0
+    ? Math.round(((growth.avgLast - growth.avgFirst) / growth.avgFirst) * 100)
+    : null;
 
   return (
     <div className="page-container">
+
+      {/* ── Streak loss warning ── */}
+      <AnimatePresence>
+        {showStreakWarning && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="mb-5 rounded-2xl border border-black dark:border-white bg-black dark:bg-white p-4 flex items-start gap-3"
+          >
+            <Warning size={18} weight="fill" className="text-white dark:text-black flex-shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="ios-text-footnote font-semibold text-white dark:text-black">
+                Dein {streak}-Tage-Streak endet heute Nacht
+              </p>
+              <p className="ios-text-caption text-white/70 dark:text-black/60 mt-0.5">
+                2 Minuten reichen.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate('/reflections/new')}
+                className="ios-text-caption font-semibold text-white dark:text-black underline underline-offset-2"
+              >
+                Jetzt
+              </button>
+              <button
+                onClick={() => {
+                  sessionStorage.setItem('streak_warning_dismissed', '1');
+                  setShowStreakWarning(false);
+                }}
+                className="ios-text-caption text-white/50 dark:text-black/40 ml-1"
+              >
+                ✕
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Header ── */}
       <div className="flex items-start justify-between mb-8">
@@ -48,8 +115,10 @@ export default function Dashboard() {
           <h1 className="ios-text-title1 text-black dark:text-white">{greeting(user?.first_name)}</h1>
         </div>
         <div className="flex items-center gap-2 mt-1">
-          {(user?.streak ?? 0) > 0 && (
-            <span className="badge">{user?.streak}d</span>
+          {streak > 0 && (
+            <span className={`badge ${!reflectedToday && mode === 'evening' ? 'border-black dark:border-white font-semibold' : ''}`}>
+              {streak}d
+            </span>
           )}
           <button onClick={() => navigate('/tokens')} className="badge">
             {user?.tokens ?? 0} T
@@ -87,11 +156,64 @@ export default function Dashboard() {
       </motion.button>
 
       {/* ── Stats row ── */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        <StatCard label="Streak" value={`${user?.streak ?? 0}`} sub="Tage" />
-        <StatCard label="Tokens" value={`${user?.tokens ?? 0}`} sub="verfügbar" />
+      <div className="grid grid-cols-3 gap-3 mb-5">
+        <StatCard label="Streak" value={`${streak}`} sub="Tage" />
+        <StatCard label="Wörter" value={growth ? `${(growth.totalWords / 1000).toFixed(1)}k` : `${user?.tokens ?? 0}`} sub={growth ? 'gesamt' : 'Tokens'} />
         <StatCard label="Status" value={user?.subscription === 'pro' ? 'Pro' : 'Free'} sub="Plan" />
       </div>
+
+      {/* ── Wöchentliche Erkenntnis-Karte ── */}
+      {growth && growth.thisWeekCount > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="card p-5 mb-5"
+        >
+          <p className="section-header mb-3">Diese Woche</p>
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="ios-text-title2 text-black dark:text-white">
+                {growth.thisWeekCount} {growth.thisWeekCount === 1 ? 'Reflexion' : 'Reflexionen'}
+              </p>
+              {growth.topCategoryThisWeek && (
+                <p className="ios-text-footnote text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.4)] mt-1">
+                  Stärkstes Thema: <span className="text-black dark:text-white font-medium">
+                    {CATEGORY_LABELS[growth.topCategoryThisWeek] || growth.topCategoryThisWeek}
+                  </span>
+                </p>
+              )}
+            </div>
+            <button
+              onClick={() => navigate('/progress')}
+              className="ios-text-caption font-medium text-black dark:text-white underline underline-offset-2"
+            >
+              Details
+            </button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* ── Damals vs. Heute ── */}
+      {growth && wordGrowth !== null && wordGrowth > 0 && growth.daysSinceStart >= 7 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="card p-5 mb-5 bg-black dark:bg-white"
+        >
+          <p className="ios-text-caption font-semibold uppercase tracking-widest text-white/40 dark:text-black/40 mb-3">
+            Deine Entwicklung
+          </p>
+          <p className="ios-text-title2 text-white dark:text-black mb-1">
+            +{wordGrowth}% tiefere Antworten
+          </p>
+          <p className="ios-text-footnote text-white/60 dark:text-black/55">
+            Vor {growth.daysSinceStart} Tagen schriebst du im Schnitt {growth.avgFirst} Wörter.
+            Heute sind es {growth.avgLast}.
+          </p>
+        </motion.div>
+      )}
 
       {/* ── Recent reflections ── */}
       {recent.length > 0 && (

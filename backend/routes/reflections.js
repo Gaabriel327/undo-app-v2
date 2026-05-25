@@ -237,6 +237,79 @@ router.get('/stats', authenticateToken, async (req, res) => {
   }
 });
 
+// GET /api/reflections/growth  — "Damals vs. Heute"
+router.get('/growth', authenticateToken, async (req, res) => {
+  try {
+    const first = await db.get(
+      `SELECT answer, question, created_at FROM reflections WHERE user_id = ? ORDER BY created_at ASC LIMIT 1`,
+      [req.user.id]
+    );
+    const latest = await db.get(
+      `SELECT answer, question, created_at FROM reflections WHERE user_id = ? ORDER BY created_at DESC LIMIT 1`,
+      [req.user.id]
+    );
+    const firstWords = first ? first.answer.trim().split(/\s+/).length : 0;
+    const latestWords = latest ? latest.answer.trim().split(/\s+/).length : 0;
+
+    // Average words per reflection — first 3 vs last 3
+    const firstThree = await db.all(
+      `SELECT answer FROM reflections WHERE user_id = ? ORDER BY created_at ASC LIMIT 3`,
+      [req.user.id]
+    );
+    const lastThree = await db.all(
+      `SELECT answer FROM reflections WHERE user_id = ? ORDER BY created_at DESC LIMIT 3`,
+      [req.user.id]
+    );
+    const avgFirst = firstThree.length
+      ? Math.round(firstThree.reduce((a, r) => a + r.answer.trim().split(/\s+/).length, 0) / firstThree.length)
+      : 0;
+    const avgLast = lastThree.length
+      ? Math.round(lastThree.reduce((a, r) => a + r.answer.trim().split(/\s+/).length, 0) / lastThree.length)
+      : 0;
+
+    // Total word count
+    const allAnswers = await db.all(
+      `SELECT answer FROM reflections WHERE user_id = ?`,
+      [req.user.id]
+    );
+    const totalWords = allAnswers.reduce((a, r) => a + r.answer.trim().split(/\s+/).length, 0);
+
+    // Weekly stats
+    const thisWeek = await db.get(
+      `SELECT COUNT(*) as count FROM reflections
+       WHERE user_id = ? AND created_at >= date('now', '-7 days')`,
+      [req.user.id]
+    );
+    const topCategoryThisWeek = await db.get(
+      `SELECT category, COUNT(*) as count FROM reflections
+       WHERE user_id = ? AND category IS NOT NULL AND created_at >= date('now', '-7 days')
+       GROUP BY category ORDER BY count DESC LIMIT 1`,
+      [req.user.id]
+    );
+
+    // Days since first reflection
+    const daysSinceStart = first
+      ? Math.max(1, Math.floor((Date.now() - new Date(first.created_at).getTime()) / 86400000))
+      : 0;
+
+    res.json({
+      first: first || null,
+      latest: latest || null,
+      firstWords,
+      latestWords,
+      avgFirst,
+      avgLast,
+      totalWords,
+      thisWeekCount: thisWeek?.count ?? 0,
+      topCategoryThisWeek: topCategoryThisWeek?.category || null,
+      daysSinceStart,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Serverfehler' });
+  }
+});
+
 // GET /api/reflections/:id
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
