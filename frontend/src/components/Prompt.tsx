@@ -25,6 +25,9 @@ export default function Prompt() {
 
   const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
 
+  // Check if slot is already used today
+  const today = new Date().toISOString().split('T')[0];
+
   useEffect(() => { loadQuestion(); }, []); // eslint-disable-line
 
   const loadQuestion = async () => {

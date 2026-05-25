@@ -226,11 +226,20 @@ router.get('/stats', authenticateToken, async (req, res) => {
       'SELECT category, COUNT(*) as count FROM reflections WHERE user_id = ? AND category IS NOT NULL GROUP BY category',
       [req.user.id]
     );
+    // Check today's slots
+    const h = new Date().getHours();
+    const currentMode = (h >= 18 || h < 5) ? 'evening' : 'morning';
+    const todaySlotUsed = await db.get(
+      `SELECT id FROM reflections WHERE user_id = ? AND mode = ? AND date(created_at) = date('now') LIMIT 1`,
+      [req.user.id, currentMode]
+    );
     res.json({
       scores,
       totalReflections: totalReflections.count,
       byCategoryCount,
       ...streakData,
+      todaySlotUsed: !!todaySlotUsed,
+      currentMode,
     });
   } catch (err) {
     res.status(500).json({ error: 'Serverfehler' });
