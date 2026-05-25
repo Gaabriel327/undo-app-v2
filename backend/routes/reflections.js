@@ -130,7 +130,7 @@ router.post('/:id/feedback', authenticateToken, async (req, res) => {
 
 Du sagst, was wirklich dahintersteckt. Du erkennst, was sie vielleicht noch nicht ausgesprochen haben. Du machst ihnen kein schlechtes Gewissen, aber du beschönigst auch nichts. Du sprichst sie mit "du" an — persönlich, direkt, auf Augenhöhe.
 
-Dein Feedback ist kurz und trifft. Keine Theorie, keine Fachbegriffe, keine Listen. Nur 3 bis 4 Sätze, die sitzen. Kein Emoji.
+Dein Feedback trifft. Keine Theorie, keine Fachbegriffe, keine Listen. Kein Emoji. Schreib 5 bis 7 Sätze — direkt, persönlich, ohne Umwege. Benenne was du siehst, was dahintersteckt, und stell eine Frage oder gib einen konkreten Impuls am Ende.
 ${contextLines.length > 0 ? '\nWas du über die Person weißt:\n' + contextLines.join('\n') : ''}`;
 
         const completion = await openai.chat.completions.create({
@@ -142,7 +142,7 @@ ${contextLines.length > 0 ? '\nWas du über die Person weißt:\n' + contextLines
               content: `Reflexionsfrage: ${reflection.question}\n\nAntwort der Person: ${reflection.answer}`,
             },
           ],
-          max_tokens: 400,
+          max_tokens: 600,
           temperature: 0.65,
         });
         feedback = completion.choices[0].message.content || '';

@@ -54,10 +54,19 @@ export default function Prompt() {
       if (user && tokensEarned > 0) {
         setUser({ ...user, tokens: user.tokens + tokensEarned });
       }
+      // Auto-generate feedback in background, then navigate
       setSubmitted({ id: reflection.id, tokensEarned });
+      try {
+        await ApiService.generateFeedback(reflection.id);
+        if (user && user.subscription !== 'pro') {
+          setUser({ ...user, tokens: Math.max(0, user.tokens - 1) });
+        }
+      } catch {
+        // Feedback failed (e.g. no tokens) — still navigate, user sees fallback on detail page
+      }
+      navigate(`/reflections/${reflection.id}`);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Fehler beim Speichern.');
-    } finally {
       setSubmitting(false);
     }
   };
@@ -72,27 +81,12 @@ export default function Prompt() {
           className="w-full max-w-xs"
         >
           <div className="w-14 h-14 rounded-full bg-black dark:bg-white mx-auto mb-6 flex items-center justify-center">
-            <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
-              <path d="M1 8l7 7L21 1" stroke="white" className="dark:stroke-black" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <div className="w-5 h-5 rounded-full border-2 border-white/40 dark:border-black/40 border-t-white dark:border-t-black animate-spin" />
           </div>
-          <h2 className="ios-text-title2 text-black dark:text-white mb-2">Gespeichert</h2>
-          <p className="ios-text-subhead text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.4)] mb-1">
-            Deine Reflexion wurde gespeichert.
+          <h2 className="ios-text-title2 text-black dark:text-white mb-2">Feedback wird erstellt</h2>
+          <p className="ios-text-subhead text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.4)]">
+            Einen Moment...
           </p>
-          {submitted.tokensEarned > 0 && (
-            <p className="ios-text-footnote text-[rgba(60,60,67,0.4)] dark:text-[rgba(235,235,245,0.35)] mb-6">
-              +{submitted.tokensEarned} Token{submitted.tokensEarned > 1 ? 's' : ''} gutgeschrieben
-            </p>
-          )}
-          <div className="flex flex-col gap-3 mt-8">
-            <button className="btn-primary w-full" onClick={() => navigate(`/reflections/${submitted.id}`)}>
-              Feedback erhalten
-            </button>
-            <button className="btn-secondary w-full" onClick={() => navigate('/')}>
-              Zum Dashboard
-            </button>
-          </div>
         </motion.div>
       </div>
     );

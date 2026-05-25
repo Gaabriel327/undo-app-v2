@@ -31,11 +31,15 @@ export default function GroupDetail() {
     setSubmitting(true); setError('');
     try {
       await ApiService.postGroupReflection(group.id, question, answer.trim());
-      setGroup(await ApiService.getGroup(group.id));
       setAnswer('');
+      // Refresh in background, show updated answers immediately
+      ApiService.getGroup(group.id).then(setGroup).catch(() => {});
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Fehler beim Senden.');
-    } finally { setSubmitting(false); }
+      setSubmitting(false);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const copyId = () => {
