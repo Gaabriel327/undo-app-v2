@@ -64,4 +64,23 @@ router.post('/redeem', authenticateToken, async (req, res) => {
   }
 });
 
+// POST /api/tokens/spend
+router.post('/spend', authenticateToken, async (req, res) => {
+  const { reason } = req.body;
+  if (!reason) return res.status(400).json({ error: 'Reason fehlt' });
+  try {
+    const user = await db.get('SELECT tokens FROM users WHERE id = ?', [req.user.id]);
+    if (!user || user.tokens < 1) return res.status(402).json({ error: 'Nicht genug Tokens' });
+    await db.run('UPDATE users SET tokens = tokens - 1 WHERE id = ?', [req.user.id]);
+    await db.run(
+      'INSERT INTO token_transactions (user_id, amount, reason) VALUES (?, ?, ?)',
+      [req.user.id, -1, reason]
+    );
+    const updated = await db.get('SELECT tokens FROM users WHERE id = ?', [req.user.id]);
+    res.json({ tokens: updated.tokens });
+  } catch (err) {
+    res.status(500).json({ error: 'Serverfehler' });
+  }
+});
+
 module.exports = router;

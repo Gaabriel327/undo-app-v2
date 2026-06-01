@@ -131,6 +131,12 @@ export const ApiService = {
     }>('/reflections/growth'),
 
   // Push notifications
+  spendToken: (reason: string) =>
+    request<{ tokens: number }>('/tokens/spend', {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    }),
+
   getVapidPublicKey: () =>
     request<{ key: string }>('/push/vapid-public-key'),
 

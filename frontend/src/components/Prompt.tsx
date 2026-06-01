@@ -139,11 +139,22 @@ export default function Prompt() {
                 {CATEGORY_LABELS[question.category] || question.category}
               </span>
               <button
-                onClick={loadQuestion}
-                className="w-8 h-8 rounded-full bg-[#F2F2F7] dark:bg-[#2C2C2E] flex items-center justify-center flex-shrink-0 active:scale-95 transition-transform"
-                title="Andere Frage"
+                onClick={async () => {
+                  if ((user?.tokens ?? 0) < 1) return;
+                  await ApiService.spendToken('Frage neu laden');
+                  if (user) setUser({ ...user, tokens: user.tokens - 1 });
+                  loadQuestion();
+                }}
+                disabled={(user?.tokens ?? 0) < 1}
+                className={`flex items-center gap-1.5 px-2.5 h-7 rounded-full text-[11px] font-medium flex-shrink-0 transition-all active:scale-95 ${
+                  (user?.tokens ?? 0) >= 1
+                    ? 'bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.5)]'
+                    : 'bg-[#F2F2F7] dark:bg-[#2C2C2E] text-[rgba(60,60,67,0.25)] dark:text-[rgba(235,235,245,0.2)] cursor-not-allowed'
+                }`}
+                title={(user?.tokens ?? 0) >= 1 ? '1 Token — andere Frage' : 'Nicht genug Tokens'}
               >
-                <ArrowCounterClockwise size={15} weight="regular" className="text-[rgba(60,60,67,0.5)] dark:text-[rgba(235,235,245,0.5)]" />
+                <ArrowCounterClockwise size={12} weight="regular" />
+                1 T
               </button>
             </div>
             <p className="ios-text-body text-black dark:text-white leading-relaxed">
