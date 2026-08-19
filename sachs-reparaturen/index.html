@@ -3,10 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sachs Reparaturen – Festpreis für Kleinreparaturen im Main-Taunus-Kreis</title>
-<meta name="description" content="Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis. Festpreis vorher, verbindlicher Termin, ab 119 Euro. Betrieben von Möbel Sachs.">
+<title>Rollladen, Tür oder Fenster kaputt? Festpreis ab 119 € – Sachs Reparaturen, Main-Taunus-Kreis</title>
+<meta name="description" content="Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis. Foto schicken, Festpreis erhalten, verbindlichen Termin bekommen. Ab 119 €, Anfahrt inklusive. Ein Betrieb von Möbel Sachs.">
 <meta name="robots" content="index, follow">
+<meta name="theme-color" content="#FAFAF8">
 <link rel="canonical" href="https://www.sachs-reparaturen.de/">
+
+<!-- Vorschau, wenn jemand den Link per WhatsApp weiterschickt -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<meta property="og:site_name" content="Sachs Reparaturen">
+<meta property="og:title" content="Festpreis vorher. Termin verbindlich. Ab 119 €.">
+<meta property="og:description" content="Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis. Anfahrt inklusive.">
+<meta property="og:url" content="https://www.sachs-reparaturen.de/">
+
 <!-- Favicon als Data-URI: kein zusätzlicher Request, keine externe Datei -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111111'/%3E%3Crect x='6' y='13' width='20' height='6' fill='%23B4462A'/%3E%3C/svg%3E">
 
@@ -15,13 +25,14 @@
   KONFIGURATION – HIER ÄNDERN
 ====================================================================
   Alles, was sich im Alltag ändert (Preise, Telefonnummer,
-  Formular-Adresse, Gründungsjahr, Orte), steht im Block KONFIG
-  direkt unter diesem Kommentar. Sonst muss nichts angefasst werden.
+  Formular-Adresse, Button-Text, Fristen, Gründungsjahr), steht im
+  Block KONFIG direkt unter diesem Kommentar. Sonst muss nichts
+  angefasst werden.
 
-  Die Zahlen, die weiter unten im HTML stehen, sind nur Rückfallwerte
-  für Besucher ohne JavaScript. Beim Laden der Seite werden sie
-  automatisch durch die Werte aus KONFIG ersetzt. Maßgeblich ist
-  also immer KONFIG.
+  Die Zahlen und Texte, die weiter unten im HTML stehen, sind nur
+  Rückfallwerte für Besucher ohne JavaScript. Beim Laden der Seite
+  werden sie automatisch durch die Werte aus KONFIG ersetzt.
+  Maßgeblich ist also immer KONFIG.
 ====================================================================
 -->
 <script>
@@ -49,6 +60,7 @@ const KONFIG = {
   // TELEFONNUMMER ERSETZEN: erst die Anzeige, dann die Wählnummer
   telefonAnzeige: "06192 000000",
   telefonWaehlen: "+496192000000",
+  telefonZeiten:  "Montag bis Freitag, 8 bis 17 Uhr",
 
   /* ---- ONLINE-FORMULAR ----
      FORMULAR_URL durch die echte Adresse des Buchungsformulars
@@ -56,15 +68,37 @@ const KONFIG = {
      Alle Buttons der Seite zeigen danach automatisch dorthin. */
   formularUrl: "FORMULAR_URL",
 
+  /* Die vier Kacheln hängen die gewählte Leistung an die Adresse an,
+     zum Beispiel ...?leistung=rollladen. Wenn das Formular damit
+     nichts anfangen kann, hier "" eintragen, dann entfällt es. */
+  leistungParameter: "leistung",
+
+  /* ---- TEXTE, DIE SICH LOHNEN ZU TESTEN ----
+     Der Button-Text steht an allen Stellen der Seite gleich.
+     Zum Vergleichen einfach austauschen, etwa
+     "Reparatur anfragen" oder "Festpreis in 2 Minuten". */
+  buttonText:  "Festpreis anfragen",
+  antwortzeit: "am selben Werktag",              // wie schnell der Preis kommt
+  terminfrist: "drei bis fünf Werktagen",        // wie schnell der Termin kommt
+
   /* ---- BETRIEB ---- */
-  gruendungsjahr: "[JAHR PLATZHALTER]"  // Gründungsjahr Möbel Sachs eintragen
+  gruendungsjahr: "[JAHR PLATZHALTER]",  // Gründungsjahr Möbel Sachs eintragen
+
+  /* ---- BEWERTUNGEN ----
+     Bewusst abgeschaltet. Erst einschalten (anzeigen: true), wenn die
+     Zahlen echt sind und belegt werden können, sonst ist es Werbung
+     mit unzutreffenden Angaben und abmahnfähig. */
+  bewertung: {
+    anzeigen: false,
+    text: "[z. B. 4,8 von 5 Sternen bei Google, 127 Bewertungen]"
+  }
 };
 </script>
 
 <!--
   LocalBusiness-Schema für Google.
   Adresse, Telefonnummer und Öffnungszeiten vor dem Livegang eintragen.
-  Bei größeren Preisänderungen bitte priceRange anpassen.
+  Bei größeren Preisänderungen bitte priceRange und die Offers anpassen.
 -->
 <script type="application/ld+json">
 {
@@ -75,6 +109,7 @@ const KONFIG = {
   "url": "https://www.sachs-reparaturen.de/",
   "telephone": "+49 6192 000000",
   "priceRange": "69 € – 299 €",
+  "currenciesAccepted": "EUR",
   "parentOrganization": { "@type": "Organization", "name": "Möbel Sachs" },
   "address": {
     "@type": "PostalAddress",
@@ -115,6 +150,32 @@ const KONFIG = {
 }
 </script>
 
+<!--
+  FAQ-Schema. Google zeigt diese Fragen teilweise direkt in den
+  Suchergebnissen an. Der Text muss mit den Fragen weiter unten auf
+  der Seite übereinstimmen, sonst verstößt es gegen die Richtlinien.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    { "@type": "Question", "name": "Was kostet die Anfahrt?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nichts. Die Anfahrt ist im Festpreis enthalten, solange Sie im Main-Taunus-Kreis wohnen." } },
+    { "@type": "Question", "name": "Was ist, wenn es länger dauert als geplant?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Dann gilt trotzdem der vereinbarte Festpreis. Die Zeitangaben in der Preistabelle sind unsere Kalkulation, nicht Ihr Risiko." } },
+    { "@type": "Question", "name": "Was ist, wenn ein Ersatzteil fehlt?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Der Monteur nennt Ihnen das genaue Teil mit Bezeichnung, damit Sie es bestellen können. Die Montage übernehmen wir im Zweittermin für 149 €." } },
+    { "@type": "Question", "name": "Welche Orte werden bedient?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Den gesamten Main-Taunus-Kreis: Hofheim, Kelkheim, Bad Soden, Eschborn, Schwalbach, Sulzbach, Liederbach, Kriftel, Hattersheim, Hochheim, Flörsheim und Eppstein." } },
+    { "@type": "Question", "name": "Wie schnell bekomme ich einen Termin?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Mit festem Termin meist innerhalb von drei bis fünf Werktagen. Mit Express heute oder morgen, gegen 79 € Aufschlag. Ohne Terminwunsch innerhalb von 14 Tagen." } },
+    { "@type": "Question", "name": "Kann ich mehrere Sachen auf einmal machen lassen?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ja. Jede weitere Kleinigkeit im selben Termin kostet 69 €. Schreiben Sie einfach alles in die Anfrage." } }
+  ]
+}
+</script>
+
 <style>
 /* ==================================================================
    Grundlagen
@@ -139,10 +200,10 @@ body {
   background: var(--papier);
   color: var(--schwarz);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.5;
-  /* Platz für den festen Telefon-Button am unteren Rand (Mobil) */
-  padding-bottom: 76px;
+  /* Platz für die feste Leiste am unteren Rand (Mobil) */
+  padding-bottom: 88px;
 }
 
 h1, h2, h3 {
@@ -186,16 +247,14 @@ section { padding: 64px 0; }
 /* ==================================================================
    Kopfzeile
    ================================================================== */
-.kopf {
-  border-bottom: 1px solid var(--schwarz);
-}
+.kopf { border-bottom: 1px solid var(--schwarz); }
 .kopf .inhalt {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 16px;
-  padding-top: 18px;
-  padding-bottom: 18px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 .marke {
   font-size: 1.0625rem;
@@ -211,7 +270,7 @@ section { padding: 64px 0; }
   color: var(--grau);
 }
 .kopf-tel {
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
@@ -224,14 +283,14 @@ section { padding: 64px 0; }
 .knopf {
   display: block;
   width: 100%;
-  min-height: 56px;
-  padding: 17px 20px;
+  min-height: 60px;
+  padding: 18px 20px;
   background: var(--akzent);
   color: #ffffff;
   border: 0;
   border-radius: 2px;
   font: inherit;
-  font-size: 1.125rem;
+  font-size: 1.1875rem;
   font-weight: 700;
   letter-spacing: -0.01em;
   text-align: center;
@@ -239,26 +298,77 @@ section { padding: 64px 0; }
 }
 .knopf:hover { background: var(--akzent-dunkel); }
 
+/* Zweitrangiger Button: nur Rahmen, damit die Hierarchie klar bleibt */
+.knopf-zweit {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 16px 18px;
+  background: transparent;
+  color: var(--schwarz);
+  border: 1px solid var(--schwarz);
+  border-radius: 2px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-decoration: none;
+}
+.knopf-zweit:hover { background: var(--schwarz); color: #ffffff; }
+
 .knopf-hinweis {
-  margin-top: 12px;
-  font-size: 0.9375rem;
+  margin-top: 14px;
+  font-size: 1rem;
   color: var(--grau);
 }
+.knopf-hinweis strong { color: var(--schwarz); }
+
+/* Telefon als gleichwertiger zweiter Weg, direkt unter dem Button */
+.tel-zeile {
+  margin-top: 20px;
+  font-size: 1.0625rem;
+}
+.tel-zeile a {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  border-bottom: 2px solid var(--schwarz);
+  /* großzügige Trefferfläche für die Zielgruppe */
+  display: inline-block;
+  padding: 6px 0;
+}
+.tel-zeile > span { color: var(--grau); }
 
 /* ==================================================================
    Hero
    ================================================================== */
-.hero { padding: 56px 0 72px; }
+.hero { padding: 48px 0 56px; }
 .hero h1 {
   font-size: clamp(3rem, 12vw, 4.25rem);
   line-height: 1.02;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 .hero p.versprechen {
   font-size: 1.1875rem;
   max-width: 34ch;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
+
+/* Drei harte Fakten direkt unter dem Button, keine Dekoration */
+.vorteile {
+  list-style: none;
+  margin: 40px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--schwarz);
+  font-size: 1rem;
+}
+.vorteile li { margin-bottom: 10px; }
+.vorteile li:last-child { margin-bottom: 0; }
+.vorteile strong { font-weight: 700; }
+.vorteile span { color: var(--grau); }
+
+/* Bewertungszeile, standardmäßig ausgeblendet */
+.bewertung { margin-top: 20px; font-size: 1rem; font-weight: 700; }
 
 /* ==================================================================
    Abschnittsüberschriften
@@ -266,12 +376,60 @@ section { padding: 64px 0; }
 h2 {
   font-size: clamp(2rem, 7.5vw, 2.75rem);
   line-height: 1.05;
+  margin-bottom: 12px;
+}
+.vorspann {
+  color: var(--grau);
+  font-size: 1.0625rem;
   margin-bottom: 40px;
+  max-width: 46ch;
 }
-h3 {
-  font-size: 1.25rem;
-  line-height: 1.2;
+h2.allein { margin-bottom: 40px; }
+h3 { font-size: 1.25rem; line-height: 1.2; }
+
+/* ==================================================================
+   Kacheln: Was wir reparieren
+   ================================================================== */
+.kacheln {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
 }
+.kachel {
+  border: 1px solid var(--schwarz);
+  border-radius: 2px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.kachel h3 { margin-bottom: 14px; }
+.kachel ul {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  color: var(--grau);
+  font-size: 1rem;
+}
+.kachel ul li { margin-bottom: 4px; }
+.kachel .ab {
+  font-size: 0.8125rem;
+  color: var(--grau);
+  display: block;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.kachel .zahl {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--akzent);
+  line-height: 1.1;
+  display: block;
+  margin-bottom: 20px;
+}
+.kachel .knopf-zweit { margin-top: auto; }
 
 /* ==================================================================
    Ablauf in drei Schritten
@@ -291,57 +449,12 @@ h3 {
 .schritte p { color: var(--grau); }
 
 /* ==================================================================
-   Kacheln: Was wir reparieren
-   ================================================================== */
-.kacheln {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 20px;
-}
-.kachel {
-  border: 1px solid var(--schwarz);
-  border-radius: 2px;
-  padding: 24px 20px;
-}
-.kachel h3 { margin-bottom: 14px; }
-.kachel ul {
-  list-style: none;
-  margin: 0 0 20px;
-  padding: 0;
-  color: var(--grau);
-  font-size: 1rem;
-}
-.kachel ul li { margin-bottom: 4px; }
-.kachel .ab {
-  font-size: 0.875rem;
-  color: var(--grau);
-  display: block;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-.kachel .zahl {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--akzent);
-  line-height: 1.1;
-}
-
-/* ==================================================================
    Preistabelle – bewusst wie ein technisches Datenblatt
    ================================================================== */
 .preistabelle {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-}
-.preistabelle caption {
-  text-align: left;
-  color: var(--grau);
-  font-size: 1rem;
-  margin-bottom: 20px;
 }
 .preistabelle th,
 .preistabelle td {
@@ -367,6 +480,19 @@ h3 {
   font-size: 0.9375rem;
   color: var(--grau);
 }
+/* Die am häufigsten gebuchte Zeile bekommt einen kräftigeren Rahmen,
+   damit das Auge einen Anker hat. Kein Etikett, kein Farbfeld. */
+.preistabelle tr.haeufig th,
+.preistabelle tr.haeufig td { border-width: 3px; }
+.preistabelle tbody th em {
+  display: block;
+  margin-top: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 .preistabelle td.preis {
   text-align: right;
   white-space: nowrap;
@@ -376,16 +502,14 @@ h3 {
   color: var(--akzent);
   width: 1%;
 }
-.enthalten {
-  margin-top: 24px;
-  font-size: 1rem;
-}
+.enthalten { margin-top: 24px; font-size: 1.0625rem; }
 .hinweis {
   margin-top: 24px;
   border-left: 2px solid var(--schwarz);
   padding-left: 16px;
   font-size: 1rem;
 }
+.preis-cta { margin-top: 40px; }
 
 /* ==================================================================
    Warum wir
@@ -406,11 +530,14 @@ h3 {
   letter-spacing: -0.02em;
   margin-bottom: 8px;
 }
-.faq dd {
-  margin: 0 0 32px;
-  color: var(--grau);
-}
+.faq dd { margin: 0 0 32px; color: var(--grau); }
 .faq dd:last-of-type { margin-bottom: 0; }
+
+/* ==================================================================
+   Einzugsgebiet
+   ================================================================== */
+.orte { font-size: 1.0625rem; }
+.orte strong { display: block; margin-bottom: 8px; }
 
 /* ==================================================================
    Abschluss und Fußzeile
@@ -423,12 +550,8 @@ h3 {
   font-size: 1rem;
 }
 .fuss p { margin-bottom: 16px; }
-.fuss ul {
-  list-style: none;
-  margin: 0 0 24px;
-  padding: 0;
-}
-.fuss ul li { margin-bottom: 10px; }
+.fuss ul { list-style: none; margin: 0 0 24px; padding: 0; }
+.fuss ul li { margin-bottom: 12px; }
 .fuss a { text-decoration: underline; }
 .fuss .tel {
   font-size: 1.375rem;
@@ -439,7 +562,8 @@ h3 {
 }
 
 /* ==================================================================
-   Fester Telefon-Button (nur Mobil)
+   Feste Leiste am unteren Rand (nur Mobil)
+   Beide Wege nebeneinander: anrufen oder anfragen.
    ================================================================== */
 .tel-leiste {
   position: fixed;
@@ -449,14 +573,17 @@ h3 {
   z-index: 40;
   background: var(--papier);
   border-top: 1px solid var(--schwarz);
-  padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 .tel-leiste a {
-  display: block;
-  min-height: 56px;
-  padding: 16px;
-  background: var(--schwarz);
-  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 58px;
+  padding: 12px 8px;
   border-radius: 2px;
   font-size: 1.0625rem;
   font-weight: 700;
@@ -464,29 +591,36 @@ h3 {
   text-align: center;
   text-decoration: none;
 }
+.tel-leiste .anrufen {
+  background: var(--papier);
+  color: var(--schwarz);
+  border: 1px solid var(--schwarz);
+}
+.tel-leiste .anfragen {
+  background: var(--akzent);
+  color: #ffffff;
+}
 
 /* ==================================================================
    Größere Bildschirme
    ================================================================== */
 @media (min-width: 720px) {
-  body { padding-bottom: 0; font-size: 19px; }
+  body { padding-bottom: 0; font-size: 20px; }
   section { padding: 96px 0; }
-  .hero { padding: 88px 0 104px; }
+  .hero { padding: 80px 0 88px; }
   .hero p.versprechen { font-size: 1.3125rem; }
   .knopf { max-width: 420px; }
   .kacheln { grid-template-columns: 1fr 1fr; gap: 24px; }
-  .schritte {
+  .vorteile {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 24px;
   }
+  .vorteile li { margin-bottom: 0; }
+  .schritte { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .schritte li { margin-bottom: 0; }
   .preistabelle td.preis { font-size: 2.5rem; }
-  .gruende {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px 32px;
-  }
+  .gruende { display: grid; grid-template-columns: 1fr 1fr; gap: 40px 32px; }
   .gruende li { margin-bottom: 0; }
   .tel-leiste { display: none; }
 }
@@ -495,9 +629,20 @@ h3 {
   .kopf-tel { display: none; }
 }
 
+/* Kleine Handys: Hero enger fassen, damit der Button ohne Scrollen
+   sichtbar bleibt. Das ist der wichtigste Punkt der ganzen Seite. */
+@media (max-width: 380px) {
+  .hero { padding-top: 32px; }
+  .hero h1 { margin-bottom: 16px; }
+  .hero p.versprechen { font-size: 1.0625rem; margin-bottom: 24px; }
+}
+
 /* Bei ausdrücklichem Wunsch nach hohem Kontrast bleibt alles lesbar */
 @media (prefers-contrast: more) {
-  .neben, .kachel ul, .schritte p, .gruende p, .faq dd, .preistabelle tbody th span { color: var(--schwarz); }
+  .neben, .vorspann, .kachel ul, .schritte p, .gruende p, .faq dd,
+  .preistabelle tbody th span, .knopf-hinweis, .tel-zeile > span, .vorteile span {
+    color: var(--schwarz);
+  }
 }
 </style>
 </head>
@@ -522,45 +667,35 @@ h3 {
     <div class="inhalt">
       <h1>Festpreis vorher.<br>Termin verbindlich.<br>Ab <span data-preis="ab">119 €</span>.</h1>
       <p class="versprechen">Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis.</p>
+
       <!-- FORMULAR_URL: wird beim Laden aus KONFIG.formularUrl gesetzt.
            Bitte nur oben in KONFIG ändern, nicht hier. -->
-      <a class="knopf" data-formular href="FORMULAR_URL">Reparatur anfragen</a>
-      <p class="knopf-hinweis">Anfrage in zwei Minuten. Antwort in der Regel am selben Werktag.</p>
+      <a class="knopf" data-formular href="FORMULAR_URL" data-knopftext>Festpreis anfragen</a>
+      <p class="knopf-hinweis">Foto hochladen, zwei Minuten. <strong>Kostenlos und unverbindlich.</strong> Antwort <span data-antwortzeit>am selben Werktag</span>.</p>
+
+      <p class="tel-zeile">Lieber anrufen: <a data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a><br><span data-telzeiten>Montag bis Freitag, 8 bis 17 Uhr</span></p>
+
+      <!-- Bewertungszeile: bleibt verborgen, bis sie in KONFIG eingeschaltet wird -->
+      <p class="bewertung" data-bewertung hidden></p>
+
+      <ul class="vorteile">
+        <li><strong>Anfahrt inklusive.</strong> <span>Im gesamten Main-Taunus-Kreis.</span></li>
+        <li><strong>Preis vor dem Termin.</strong> <span>Sie entscheiden vorher, nicht hinterher.</span></li>
+        <li><strong>Termin in <span data-terminfrist>drei bis fünf Werktagen</span>.</strong> <span>Express heute oder morgen.</span></li>
+      </ul>
     </div>
   </section>
 
   <!-- ============================================================
-       2. So funktioniert es
-       ============================================================ -->
-  <section aria-labelledby="ablauf">
-    <div class="inhalt">
-      <h2 id="ablauf">So funktioniert es</h2>
-      <ol class="schritte">
-        <li>
-          <span class="schritt-nr" aria-hidden="true">1</span>
-          <h3>Foto schicken</h3>
-          <p>Sie beschreiben kurz, was kaputt ist, und laden ein Foto hoch. Mehr brauchen wir nicht.</p>
-        </li>
-        <li>
-          <span class="schritt-nr" aria-hidden="true">2</span>
-          <h3>Festpreis erhalten</h3>
-          <p>Wir sehen uns das Foto an und nennen Ihnen einen Festpreis. Dieser Preis gilt.</p>
-        </li>
-        <li>
-          <span class="schritt-nr" aria-hidden="true">3</span>
-          <h3>Termin bekommen</h3>
-          <p>Sie wählen ein Zeitfenster von zwei Stunden. Wir kommen darin.</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       3. Was wir reparieren
+       2. Was wir reparieren
+       Bewusst direkt nach dem Hero: Wer mit einem konkreten Schaden
+       kommt, soll sein Problem sofort wiederfinden. Jede Kachel
+       führt mit vorausgewählter Leistung ins Formular.
        ============================================================ -->
   <section aria-labelledby="leistungen">
     <div class="inhalt">
       <h2 id="leistungen">Was wir reparieren</h2>
+      <p class="vorspann">Suchen Sie Ihren Fall. Der Startpreis steht daneben.</p>
       <ul class="kacheln">
         <li class="kachel">
           <h3>Rollladen</h3>
@@ -571,6 +706,7 @@ h3 {
           </ul>
           <span class="ab">ab</span>
           <span class="zahl" data-preis="abRollladen">189 €</span>
+          <a class="knopf-zweit" data-formular="rollladen" href="FORMULAR_URL">Rollladen anfragen</a>
         </li>
         <li class="kachel">
           <h3>Türen</h3>
@@ -581,6 +717,7 @@ h3 {
           </ul>
           <span class="ab">ab</span>
           <span class="zahl" data-preis="abTueren">119 €</span>
+          <a class="knopf-zweit" data-formular="tuer" href="FORMULAR_URL">Tür anfragen</a>
         </li>
         <li class="kachel">
           <h3>Möbel</h3>
@@ -591,6 +728,7 @@ h3 {
           </ul>
           <span class="ab">ab</span>
           <span class="zahl" data-preis="abMoebel">119 €</span>
+          <a class="knopf-zweit" data-formular="moebel" href="FORMULAR_URL">Möbel anfragen</a>
         </li>
         <li class="kachel">
           <h3>Fenster</h3>
@@ -601,9 +739,41 @@ h3 {
           </ul>
           <span class="ab">ab</span>
           <span class="zahl" data-preis="abFenster">119 €</span>
+          <a class="knopf-zweit" data-formular="fenster" href="FORMULAR_URL">Fenster anfragen</a>
         </li>
       </ul>
-      <p class="neben" style="margin-top:24px">Die Startpreise gelten mit festem Termin. Ohne Terminwunsch beginnen wir bei <span data-preis="ohneTermin">69 €</span>.</p>
+      <p class="neben" style="margin-top:24px">Die Startpreise gelten mit festem Termin. Ohne Terminwunsch beginnen wir bei <span data-preis="ohneTermin">69 €</span>. Etwas anderes kaputt? Fragen Sie es trotzdem an.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. So funktioniert es
+       ============================================================ -->
+  <section aria-labelledby="ablauf">
+    <div class="inhalt">
+      <h2 id="ablauf">So funktioniert es</h2>
+      <p class="vorspann">Drei Schritte. Nach dem ersten wissen Sie, was es kostet.</p>
+      <ol class="schritte">
+        <li>
+          <span class="schritt-nr" aria-hidden="true">1</span>
+          <h3>Foto schicken</h3>
+          <p>Sie beschreiben kurz, was kaputt ist, und laden ein Foto hoch. Mehr brauchen wir nicht.</p>
+        </li>
+        <li>
+          <span class="schritt-nr" aria-hidden="true">2</span>
+          <h3>Festpreis erhalten</h3>
+          <p>Wir sehen uns das Foto an und nennen Ihnen einen Festpreis, <span data-antwortzeit>am selben Werktag</span>. Dieser Preis gilt.</p>
+        </li>
+        <li>
+          <span class="schritt-nr" aria-hidden="true">3</span>
+          <h3>Termin bekommen</h3>
+          <p>Sie wählen ein Zeitfenster von zwei Stunden. Wir kommen darin.</p>
+        </li>
+      </ol>
+      <div class="preis-cta">
+        <a class="knopf" data-formular href="FORMULAR_URL" data-knopftext>Festpreis anfragen</a>
+        <p class="knopf-hinweis">Sie gehen mit der Anfrage nichts ein. Erst wenn der Preis steht, entscheiden Sie.</p>
+      </div>
     </div>
   </section>
 
@@ -613,8 +783,8 @@ h3 {
   <section aria-labelledby="preise">
     <div class="inhalt">
       <h2 id="preise">Preise</h2>
+      <p class="vorspann">Festpreise inklusive Mehrwertsteuer. Kein Stundenzettel, keine Anfahrtspauschale.</p>
       <table class="preistabelle">
-        <caption>Alle Preise sind Festpreise inklusive Mehrwertsteuer.</caption>
         <thead>
           <tr>
             <th scope="col">Leistung</th>
@@ -628,9 +798,10 @@ h3 {
             </th>
             <td class="preis" data-preis="ohneTermin">69 €</td>
           </tr>
-          <tr>
+          <tr class="haeufig">
             <th scope="row">Kleine Reparatur bis 30 Minuten
               <span>Schranktür, Klinke, Schublade, Fenstergriff.</span>
+              <em>Der häufigste Fall</em>
             </th>
             <td class="preis" data-preis="bis30">119 €</td>
           </tr>
@@ -664,6 +835,11 @@ h3 {
       <p class="enthalten"><strong>Enthalten sind Anfahrt, Kleinmaterial bis <span data-preis="material">25 €</span> und Arbeitszeit.</strong></p>
 
       <p class="hinweis">Zeigt sich vor Ort ein größerer Schaden, nennen wir einen verbindlichen Festpreis, bevor gearbeitet wird. Sie entscheiden dann.</p>
+
+      <div class="preis-cta">
+        <a class="knopf" data-formular href="FORMULAR_URL" data-knopftext>Festpreis anfragen</a>
+        <p class="knopf-hinweis">Ihr Fall passt in keine Zeile? Schicken Sie ein Foto, wir ordnen es ein.</p>
+      </div>
     </div>
   </section>
 
@@ -672,7 +848,7 @@ h3 {
        ============================================================ -->
   <section aria-labelledby="warum">
     <div class="inhalt">
-      <h2 id="warum">Warum wir</h2>
+      <h2 id="warum" class="allein">Warum wir</h2>
       <ul class="gruende">
         <li>
           <h3>Eigene Handwerker, keine Vermittlung</h3>
@@ -696,10 +872,11 @@ h3 {
 
   <!-- ============================================================
        6. Häufige Fragen
+       Reihenfolge nach Einwand: erst Geld, dann Risiko, dann Ablauf.
        ============================================================ -->
   <section aria-labelledby="fragen">
     <div class="inhalt">
-      <h2 id="fragen">Häufige Fragen</h2>
+      <h2 id="fragen" class="allein">Häufige Fragen</h2>
       <dl class="faq">
         <dt>Was kostet die Anfahrt?</dt>
         <dd>Nichts. Die Anfahrt ist im Festpreis enthalten, solange Sie im Main-Taunus-Kreis wohnen.</dd>
@@ -714,7 +891,7 @@ h3 {
         <dd>Den gesamten Main-Taunus-Kreis: Hofheim, Kelkheim, Bad Soden, Eschborn, Schwalbach, Sulzbach, Liederbach, Kriftel, Hattersheim, Hochheim, Flörsheim und Eppstein.</dd>
 
         <dt>Wie schnell bekomme ich einen Termin?</dt>
-        <dd>Mit festem Termin meist innerhalb von drei bis fünf Werktagen. Mit Express heute oder morgen, gegen <span data-preis="express">79 €</span> Aufschlag. Ohne Terminwunsch innerhalb von 14 Tagen.</dd>
+        <dd>Mit festem Termin meist innerhalb von <span data-terminfrist>drei bis fünf Werktagen</span>. Mit Express heute oder morgen, gegen <span data-preis="express">79 €</span> Aufschlag. Ohne Terminwunsch innerhalb von 14 Tagen.</dd>
 
         <dt>Kann ich mehrere Sachen auf einmal machen lassen?</dt>
         <dd>Ja. Jede weitere Kleinigkeit im selben Termin kostet <span data-preis="weitereKleinigkeit">69 €</span>. Schreiben Sie einfach alles in die Anfrage.</dd>
@@ -723,15 +900,16 @@ h3 {
   </section>
 
   <!-- ============================================================
-       Abschluss mit zweitem Button
+       Abschluss mit letztem Button
        ============================================================ -->
   <section class="abschluss" aria-labelledby="anfrage">
     <div class="inhalt">
-      <h2 id="anfrage">Reparatur anfragen</h2>
-      <p class="versprechen" style="margin-bottom:32px">Foto hochladen, Festpreis erhalten, Termin wählen.</p>
+      <h2 id="anfrage">Was ist bei Ihnen kaputt?</h2>
+      <p class="vorspann">Foto hochladen, Festpreis erhalten, Termin wählen. Die Anfrage dauert zwei Minuten und kostet nichts.</p>
       <!-- FORMULAR_URL: siehe KONFIG oben -->
-      <a class="knopf" data-formular href="FORMULAR_URL">Reparatur anfragen</a>
-      <p class="knopf-hinweis">Lieber telefonisch? <a data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a>, Montag bis Freitag von 8 bis 17 Uhr.</p>
+      <a class="knopf" data-formular href="FORMULAR_URL" data-knopftext>Festpreis anfragen</a>
+      <p class="tel-zeile">Lieber anrufen: <a data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a><br><span data-telzeiten>Montag bis Freitag, 8 bis 17 Uhr</span></p>
+      <p class="orte" style="margin-top:40px"><strong>Wir kommen nach</strong> <span class="neben">Hofheim, Kelkheim, Bad Soden, Eschborn, Schwalbach, Sulzbach, Liederbach, Kriftel, Hattersheim, Hochheim, Flörsheim und Eppstein.</span></p>
     </div>
   </section>
 
@@ -743,7 +921,7 @@ h3 {
 <footer class="fuss">
   <div class="inhalt">
     <p><a class="tel" data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a></p>
-    <p class="neben">Sachs Reparaturen ist ein Betrieb von Möbel Sachs. Wir arbeiten im Main-Taunus-Kreis.</p>
+    <p class="neben">Sachs Reparaturen ist ein Betrieb von Möbel Sachs. Wir arbeiten im Main-Taunus-Kreis, <span data-telzeiten>Montag bis Freitag, 8 bis 17 Uhr</span>.</p>
     <ul>
       <li><a href="impressum.html">Impressum</a></li>
       <li><a href="datenschutz.html">Datenschutz</a></li>
@@ -752,19 +930,25 @@ h3 {
   </div>
 </footer>
 
-<!-- Fester Telefon-Button, nur auf dem Handy sichtbar -->
+<!-- Feste Leiste, nur auf dem Handy sichtbar: beide Wege nebeneinander -->
 <div class="tel-leiste">
-  <a data-tel-link href="tel:+496192000000">Anrufen: <span data-tel>06192 000000</span></a>
+  <a class="anrufen" data-tel-link href="tel:+496192000000" aria-label="Jetzt anrufen">Anrufen</a>
+  <a class="anfragen" data-formular href="FORMULAR_URL" aria-label="Festpreis anfragen">Anfragen</a>
 </div>
 
 <script>
 /* ==================================================================
-   Setzt Preise, Telefonnummer, Formular-Adresse und Gründungsjahr
-   aus dem KONFIG-Block ganz oben in die Seite ein.
+   Setzt Preise, Telefonnummer, Formular-Adresse, Button-Text und
+   Fristen aus dem KONFIG-Block ganz oben in die Seite ein.
    Hier muss nichts geändert werden.
    ================================================================== */
 (function () {
   var k = KONFIG;
+
+  function fuellen(auswahl, text) {
+    var felder = document.querySelectorAll(auswahl);
+    for (var i = 0; i < felder.length; i++) { felder[i].textContent = text; }
+  }
 
   // Preise: "119" wird zu "119 €", beim Express-Aufschlag zu "+79 €"
   var preisFelder = document.querySelectorAll('[data-preis]');
@@ -775,30 +959,43 @@ h3 {
     feld.textContent = (feld.hasAttribute('data-plus') ? '+' : '') + wert + ' €';
   }
 
-  // Telefonnummer: Anzeige und Wählnummer
-  var telTexte = document.querySelectorAll('[data-tel]');
-  for (var j = 0; j < telTexte.length; j++) {
-    telTexte[j].textContent = k.telefonAnzeige;
-  }
+  // Telefonnummer: Anzeige, Wählnummer und Zeiten
+  fuellen('[data-tel]', k.telefonAnzeige);
+  fuellen('[data-telzeiten]', k.telefonZeiten);
   var telLinks = document.querySelectorAll('[data-tel-link]');
-  for (var l = 0; l < telLinks.length; l++) {
-    telLinks[l].setAttribute('href', 'tel:' + k.telefonWaehlen);
+  for (var j = 0; j < telLinks.length; j++) {
+    telLinks[j].setAttribute('href', 'tel:' + k.telefonWaehlen);
   }
 
-  // Alle Buttons zeigen auf das Online-Formular
+  // Alle Buttons zeigen auf das Online-Formular. Die vier Kacheln
+  // hängen ihre Leistung an, damit das Formular sie vorauswählen kann.
   var formularLinks = document.querySelectorAll('[data-formular]');
   for (var m = 0; m < formularLinks.length; m++) {
-    formularLinks[m].setAttribute('href', k.formularUrl);
+    var ziel = k.formularUrl;
+    var leistung = formularLinks[m].getAttribute('data-formular');
+    if (leistung && k.leistungParameter) {
+      ziel += (ziel.indexOf('?') === -1 ? '?' : '&') +
+              encodeURIComponent(k.leistungParameter) + '=' + encodeURIComponent(leistung);
+    }
+    formularLinks[m].setAttribute('href', ziel);
   }
 
+  // Text der Hauptbuttons an einer Stelle austauschbar
+  fuellen('[data-knopftext]', k.buttonText);
+
+  // Fristen
+  fuellen('[data-antwortzeit]', k.antwortzeit);
+  fuellen('[data-terminfrist]', k.terminfrist);
+
   // Gründungsjahr und laufendes Jahr
-  var jahrFelder = document.querySelectorAll('[data-jahr]');
-  for (var n = 0; n < jahrFelder.length; n++) {
-    jahrFelder[n].textContent = k.gruendungsjahr;
-  }
-  var aktuell = document.querySelectorAll('[data-jahr-aktuell]');
-  for (var o = 0; o < aktuell.length; o++) {
-    aktuell[o].textContent = new Date().getFullYear();
+  fuellen('[data-jahr]', k.gruendungsjahr);
+  fuellen('[data-jahr-aktuell]', new Date().getFullYear());
+
+  // Bewertungszeile nur zeigen, wenn sie in KONFIG eingeschaltet ist
+  var bewertung = document.querySelector('[data-bewertung]');
+  if (bewertung && k.bewertung && k.bewertung.anzeigen) {
+    bewertung.textContent = k.bewertung.text;
+    bewertung.removeAttribute('hidden');
   }
 })();
 </script>
