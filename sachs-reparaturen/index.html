@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sachs Reparaturen – Festpreis für Kleinreparaturen im Main-Taunus-Kreis</title>
+<meta name="description" content="Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis. Festpreis vorher, verbindlicher Termin, ab 119 Euro. Betrieben von Möbel Sachs.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.sachs-reparaturen.de/">
+<!-- Favicon als Data-URI: kein zusätzlicher Request, keine externe Datei -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111111'/%3E%3Crect x='6' y='13' width='20' height='6' fill='%23B4462A'/%3E%3C/svg%3E">
+
+<!--
+====================================================================
+  KONFIGURATION – HIER ÄNDERN
+====================================================================
+  Alles, was sich im Alltag ändert (Preise, Telefonnummer,
+  Formular-Adresse, Gründungsjahr, Orte), steht im Block KONFIG
+  direkt unter diesem Kommentar. Sonst muss nichts angefasst werden.
+
+  Die Zahlen, die weiter unten im HTML stehen, sind nur Rückfallwerte
+  für Besucher ohne JavaScript. Beim Laden der Seite werden sie
+  automatisch durch die Werte aus KONFIG ersetzt. Maßgeblich ist
+  also immer KONFIG.
+====================================================================
+-->
+<script>
+const KONFIG = {
+
+  /* ---- PREISE (nur die Zahl, das Euro-Zeichen setzt die Seite) ---- */
+  preise: {
+    ab:                 119,  // Startpreis in der Überschrift oben
+    ohneTermin:          69,  // Kleinigkeit ohne Terminwunsch
+    bis30:              119,  // Kleine Reparatur bis 30 Minuten
+    bis60:              189,  // Reparatur bis 60 Minuten
+    bis120:             299,  // Größere Reparatur bis 2 Stunden
+    diagnose:            89,  // Diagnose bei unklarem Defekt
+    express:             79,  // Aufschlag Express (heute oder morgen)
+    zweittermin:        149,  // Montage im Zweittermin, wenn ein Teil fehlt
+    weitereKleinigkeit:  69,  // jede weitere Kleinigkeit im selben Termin
+    material:            25,  // enthaltenes Kleinmaterial
+    abRollladen:        189,  // Startpreise der vier Kacheln
+    abTueren:           119,
+    abMoebel:           119,
+    abFenster:          119
+  },
+
+  /* ---- KONTAKT ---- */
+  // TELEFONNUMMER ERSETZEN: erst die Anzeige, dann die Wählnummer
+  telefonAnzeige: "06192 000000",
+  telefonWaehlen: "+496192000000",
+
+  /* ---- ONLINE-FORMULAR ----
+     FORMULAR_URL durch die echte Adresse des Buchungsformulars
+     ersetzen, zum Beispiel "https://formular.sachs-reparaturen.de".
+     Alle Buttons der Seite zeigen danach automatisch dorthin. */
+  formularUrl: "FORMULAR_URL",
+
+  /* ---- BETRIEB ---- */
+  gruendungsjahr: "[JAHR PLATZHALTER]"  // Gründungsjahr Möbel Sachs eintragen
+};
+</script>
+
+<!--
+  LocalBusiness-Schema für Google.
+  Adresse, Telefonnummer und Öffnungszeiten vor dem Livegang eintragen.
+  Bei größeren Preisänderungen bitte priceRange anpassen.
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "name": "Sachs Reparaturen",
+  "description": "Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln zum Festpreis im Main-Taunus-Kreis.",
+  "url": "https://www.sachs-reparaturen.de/",
+  "telephone": "+49 6192 000000",
+  "priceRange": "69 € – 299 €",
+  "parentOrganization": { "@type": "Organization", "name": "Möbel Sachs" },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Straße und Hausnummer",
+    "postalCode": "PLZ",
+    "addressLocality": "Ort",
+    "addressRegion": "Hessen",
+    "addressCountry": "DE"
+  },
+  "areaServed": [
+    { "@type": "AdministrativeArea", "name": "Main-Taunus-Kreis" },
+    { "@type": "City", "name": "Hofheim am Taunus" },
+    { "@type": "City", "name": "Kelkheim (Taunus)" },
+    { "@type": "City", "name": "Bad Soden am Taunus" },
+    { "@type": "City", "name": "Eschborn" },
+    { "@type": "City", "name": "Schwalbach am Taunus" },
+    { "@type": "City", "name": "Sulzbach (Taunus)" },
+    { "@type": "City", "name": "Liederbach am Taunus" },
+    { "@type": "City", "name": "Kriftel" },
+    { "@type": "City", "name": "Hattersheim am Main" },
+    { "@type": "City", "name": "Hochheim am Main" },
+    { "@type": "City", "name": "Flörsheim am Main" },
+    { "@type": "City", "name": "Eppstein" }
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "08:00",
+    "closes": "17:00"
+  }],
+  "makesOffer": [
+    { "@type": "Offer", "name": "Kleinigkeit ohne Terminwunsch",   "price": "69",  "priceCurrency": "EUR" },
+    { "@type": "Offer", "name": "Kleine Reparatur bis 30 Minuten", "price": "119", "priceCurrency": "EUR" },
+    { "@type": "Offer", "name": "Reparatur bis 60 Minuten",        "price": "189", "priceCurrency": "EUR" },
+    { "@type": "Offer", "name": "Größere Reparatur bis 2 Stunden", "price": "299", "priceCurrency": "EUR" },
+    { "@type": "Offer", "name": "Diagnose bei unklarem Defekt",    "price": "89",  "priceCurrency": "EUR" }
+  ]
+}
+</script>
+
+<style>
+/* ==================================================================
+   Grundlagen
+   Farben: Text und Rahmen #111111, Hintergrund #FAFAF8,
+   Akzent #B4462A (nur Buttons und Preise), Nebentext #6B6B68.
+   Keine Schatten, keine Verläufe, keine Animationen.
+   ================================================================== */
+:root {
+  --schwarz: #111111;
+  --papier:  #FAFAF8;
+  --akzent:  #B4462A;
+  --akzent-dunkel: #8E3620;
+  --grau:    #6B6B68;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--papier);
+  color: var(--schwarz);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  /* Platz für den festen Telefon-Button am unteren Rand (Mobil) */
+  padding-bottom: 76px;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0; }
+
+a { color: var(--schwarz); }
+
+:focus-visible {
+  outline: 3px solid var(--schwarz);
+  outline-offset: 2px;
+}
+
+.inhalt {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+section { padding: 64px 0; }
+
+.neben { color: var(--grau); }
+
+/* Sprungmarke für Tastatur- und Screenreader-Nutzung */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--schwarz);
+  color: #fff;
+  padding: 12px 16px;
+  z-index: 50;
+}
+.skip:focus { left: 0; }
+
+/* ==================================================================
+   Kopfzeile
+   ================================================================== */
+.kopf {
+  border-bottom: 1px solid var(--schwarz);
+}
+.kopf .inhalt {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+.marke {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+}
+.marke span {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--grau);
+}
+.kopf-tel {
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--schwarz);
+}
+
+/* ==================================================================
+   Buttons
+   ================================================================== */
+.knopf {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  padding: 17px 20px;
+  background: var(--akzent);
+  color: #ffffff;
+  border: 0;
+  border-radius: 2px;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-decoration: none;
+}
+.knopf:hover { background: var(--akzent-dunkel); }
+
+.knopf-hinweis {
+  margin-top: 12px;
+  font-size: 0.9375rem;
+  color: var(--grau);
+}
+
+/* ==================================================================
+   Hero
+   ================================================================== */
+.hero { padding: 56px 0 72px; }
+.hero h1 {
+  font-size: clamp(3rem, 12vw, 4.25rem);
+  line-height: 1.02;
+  margin-bottom: 24px;
+}
+.hero p.versprechen {
+  font-size: 1.1875rem;
+  max-width: 34ch;
+  margin-bottom: 40px;
+}
+
+/* ==================================================================
+   Abschnittsüberschriften
+   ================================================================== */
+h2 {
+  font-size: clamp(2rem, 7.5vw, 2.75rem);
+  line-height: 1.05;
+  margin-bottom: 40px;
+}
+h3 {
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+/* ==================================================================
+   Ablauf in drei Schritten
+   ================================================================== */
+.schritte { list-style: none; margin: 0; padding: 0; }
+.schritte li { margin-bottom: 40px; }
+.schritte li:last-child { margin-bottom: 0; }
+.schritt-nr {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.schritte h3 { margin-bottom: 6px; }
+.schritte p { color: var(--grau); }
+
+/* ==================================================================
+   Kacheln: Was wir reparieren
+   ================================================================== */
+.kacheln {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+.kachel {
+  border: 1px solid var(--schwarz);
+  border-radius: 2px;
+  padding: 24px 20px;
+}
+.kachel h3 { margin-bottom: 14px; }
+.kachel ul {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  color: var(--grau);
+  font-size: 1rem;
+}
+.kachel ul li { margin-bottom: 4px; }
+.kachel .ab {
+  font-size: 0.875rem;
+  color: var(--grau);
+  display: block;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.kachel .zahl {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--akzent);
+  line-height: 1.1;
+}
+
+/* ==================================================================
+   Preistabelle – bewusst wie ein technisches Datenblatt
+   ================================================================== */
+.preistabelle {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.preistabelle caption {
+  text-align: left;
+  color: var(--grau);
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+.preistabelle th,
+.preistabelle td {
+  border: 1px solid var(--schwarz);
+  padding: 18px 16px;
+  vertical-align: top;
+}
+.preistabelle thead th {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.preistabelle tbody th {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+.preistabelle tbody th span {
+  display: block;
+  margin-top: 6px;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  color: var(--grau);
+}
+.preistabelle td.preis {
+  text-align: right;
+  white-space: nowrap;
+  font-size: 1.875rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--akzent);
+  width: 1%;
+}
+.enthalten {
+  margin-top: 24px;
+  font-size: 1rem;
+}
+.hinweis {
+  margin-top: 24px;
+  border-left: 2px solid var(--schwarz);
+  padding-left: 16px;
+  font-size: 1rem;
+}
+
+/* ==================================================================
+   Warum wir
+   ================================================================== */
+.gruende { list-style: none; margin: 0; padding: 0; }
+.gruende li { margin-bottom: 32px; }
+.gruende li:last-child { margin-bottom: 0; }
+.gruende h3 { margin-bottom: 6px; }
+.gruende p { color: var(--grau); }
+
+/* ==================================================================
+   Fragen
+   ================================================================== */
+.faq { margin: 0; }
+.faq dt {
+  font-weight: 800;
+  font-size: 1.1875rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.faq dd {
+  margin: 0 0 32px;
+  color: var(--grau);
+}
+.faq dd:last-of-type { margin-bottom: 0; }
+
+/* ==================================================================
+   Abschluss und Fußzeile
+   ================================================================== */
+.abschluss { border-top: 1px solid var(--schwarz); }
+
+.fuss {
+  border-top: 1px solid var(--schwarz);
+  padding: 40px 0 48px;
+  font-size: 1rem;
+}
+.fuss p { margin-bottom: 16px; }
+.fuss ul {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+.fuss ul li { margin-bottom: 10px; }
+.fuss a { text-decoration: underline; }
+.fuss .tel {
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  border-bottom: 2px solid var(--schwarz);
+}
+
+/* ==================================================================
+   Fester Telefon-Button (nur Mobil)
+   ================================================================== */
+.tel-leiste {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: var(--papier);
+  border-top: 1px solid var(--schwarz);
+  padding: 10px 20px calc(10px + env(safe-area-inset-bottom));
+}
+.tel-leiste a {
+  display: block;
+  min-height: 56px;
+  padding: 16px;
+  background: var(--schwarz);
+  color: #ffffff;
+  border-radius: 2px;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* ==================================================================
+   Größere Bildschirme
+   ================================================================== */
+@media (min-width: 720px) {
+  body { padding-bottom: 0; font-size: 19px; }
+  section { padding: 96px 0; }
+  .hero { padding: 88px 0 104px; }
+  .hero p.versprechen { font-size: 1.3125rem; }
+  .knopf { max-width: 420px; }
+  .kacheln { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .schritte {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .schritte li { margin-bottom: 0; }
+  .preistabelle td.preis { font-size: 2.5rem; }
+  .gruende {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+  .gruende li { margin-bottom: 0; }
+  .tel-leiste { display: none; }
+}
+
+@media (max-width: 719px) {
+  .kopf-tel { display: none; }
+}
+
+/* Bei ausdrücklichem Wunsch nach hohem Kontrast bleibt alles lesbar */
+@media (prefers-contrast: more) {
+  .neben, .kachel ul, .schritte p, .gruende p, .faq dd, .preistabelle tbody th span { color: var(--schwarz); }
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#hauptinhalt">Zum Inhalt springen</a>
+
+<header class="kopf">
+  <div class="inhalt">
+    <a class="marke" href="/">Sachs Reparaturen<span>Ein Betrieb von Möbel Sachs</span></a>
+    <!-- Telefonnummer wird aus KONFIG gesetzt -->
+    <a class="kopf-tel" data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a>
+  </div>
+</header>
+
+<main id="hauptinhalt">
+
+  <!-- ============================================================
+       1. Hero
+       ============================================================ -->
+  <section class="hero">
+    <div class="inhalt">
+      <h1>Festpreis vorher.<br>Termin verbindlich.<br>Ab <span data-preis="ab">119 €</span>.</h1>
+      <p class="versprechen">Kleinreparaturen an Rollladen, Türen, Fenstern und Möbeln im Main-Taunus-Kreis.</p>
+      <!-- FORMULAR_URL: wird beim Laden aus KONFIG.formularUrl gesetzt.
+           Bitte nur oben in KONFIG ändern, nicht hier. -->
+      <a class="knopf" data-formular href="FORMULAR_URL">Reparatur anfragen</a>
+      <p class="knopf-hinweis">Anfrage in zwei Minuten. Antwort in der Regel am selben Werktag.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       2. So funktioniert es
+       ============================================================ -->
+  <section aria-labelledby="ablauf">
+    <div class="inhalt">
+      <h2 id="ablauf">So funktioniert es</h2>
+      <ol class="schritte">
+        <li>
+          <span class="schritt-nr" aria-hidden="true">1</span>
+          <h3>Foto schicken</h3>
+          <p>Sie beschreiben kurz, was kaputt ist, und laden ein Foto hoch. Mehr brauchen wir nicht.</p>
+        </li>
+        <li>
+          <span class="schritt-nr" aria-hidden="true">2</span>
+          <h3>Festpreis erhalten</h3>
+          <p>Wir sehen uns das Foto an und nennen Ihnen einen Festpreis. Dieser Preis gilt.</p>
+        </li>
+        <li>
+          <span class="schritt-nr" aria-hidden="true">3</span>
+          <h3>Termin bekommen</h3>
+          <p>Sie wählen ein Zeitfenster von zwei Stunden. Wir kommen darin.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. Was wir reparieren
+       ============================================================ -->
+  <section aria-labelledby="leistungen">
+    <div class="inhalt">
+      <h2 id="leistungen">Was wir reparieren</h2>
+      <ul class="kacheln">
+        <li class="kachel">
+          <h3>Rollladen</h3>
+          <ul>
+            <li>Gurt gerissen</li>
+            <li>Rollladen klemmt oder hängt schief</li>
+            <li>Wickelwelle oder Führungsschiene defekt</li>
+          </ul>
+          <span class="ab">ab</span>
+          <span class="zahl" data-preis="abRollladen">189 €</span>
+        </li>
+        <li class="kachel">
+          <h3>Türen</h3>
+          <ul>
+            <li>Tür schleift am Rahmen</li>
+            <li>Klinke sitzt locker</li>
+            <li>Schloss klemmt oder schließt nicht</li>
+          </ul>
+          <span class="ab">ab</span>
+          <span class="zahl" data-preis="abTueren">119 €</span>
+        </li>
+        <li class="kachel">
+          <h3>Möbel</h3>
+          <ul>
+            <li>Schranktür hängt schief</li>
+            <li>Schublade läuft nicht mehr</li>
+            <li>Beschlag oder Scharnier ausgerissen</li>
+          </ul>
+          <span class="ab">ab</span>
+          <span class="zahl" data-preis="abMoebel">119 €</span>
+        </li>
+        <li class="kachel">
+          <h3>Fenster</h3>
+          <ul>
+            <li>Griff defekt oder lose</li>
+            <li>Fenster schließt nicht dicht</li>
+            <li>Flügel muss justiert werden</li>
+          </ul>
+          <span class="ab">ab</span>
+          <span class="zahl" data-preis="abFenster">119 €</span>
+        </li>
+      </ul>
+      <p class="neben" style="margin-top:24px">Die Startpreise gelten mit festem Termin. Ohne Terminwunsch beginnen wir bei <span data-preis="ohneTermin">69 €</span>.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. Preise
+       ============================================================ -->
+  <section aria-labelledby="preise">
+    <div class="inhalt">
+      <h2 id="preise">Preise</h2>
+      <table class="preistabelle">
+        <caption>Alle Preise sind Festpreise inklusive Mehrwertsteuer.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Leistung</th>
+            <th scope="col" style="text-align:right">Preis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Kleinigkeit ohne Terminwunsch
+              <span>Wir kommen, wenn wir in Ihrer Nähe sind, innerhalb von 14 Tagen.</span>
+            </th>
+            <td class="preis" data-preis="ohneTermin">69 €</td>
+          </tr>
+          <tr>
+            <th scope="row">Kleine Reparatur bis 30 Minuten
+              <span>Schranktür, Klinke, Schublade, Fenstergriff.</span>
+            </th>
+            <td class="preis" data-preis="bis30">119 €</td>
+          </tr>
+          <tr>
+            <th scope="row">Reparatur bis 60 Minuten
+              <span>Rollladengurt, Tür justieren, Türband.</span>
+            </th>
+            <td class="preis" data-preis="bis60">189 €</td>
+          </tr>
+          <tr>
+            <th scope="row">Größere Reparatur bis 2 Stunden
+              <span>Wickelwelle, Führungsschiene.</span>
+            </th>
+            <td class="preis" data-preis="bis120">299 €</td>
+          </tr>
+          <tr>
+            <th scope="row">Diagnose bei unklarem Defekt
+              <span>Wenn vorher niemand sagen kann, woran es liegt.</span>
+            </th>
+            <td class="preis" data-preis="diagnose">89 €</td>
+          </tr>
+          <tr>
+            <th scope="row">Express, heute oder morgen
+              <span>Aufschlag auf den jeweiligen Festpreis.</span>
+            </th>
+            <td class="preis" data-preis="express" data-plus>+79 €</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="enthalten"><strong>Enthalten sind Anfahrt, Kleinmaterial bis <span data-preis="material">25 €</span> und Arbeitszeit.</strong></p>
+
+      <p class="hinweis">Zeigt sich vor Ort ein größerer Schaden, nennen wir einen verbindlichen Festpreis, bevor gearbeitet wird. Sie entscheiden dann.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. Warum wir
+       ============================================================ -->
+  <section aria-labelledby="warum">
+    <div class="inhalt">
+      <h2 id="warum">Warum wir</h2>
+      <ul class="gruende">
+        <li>
+          <h3>Eigene Handwerker, keine Vermittlung</h3>
+          <p>Zu Ihnen kommt jemand aus unserem Betrieb. Wir geben Aufträge nicht weiter.</p>
+        </li>
+        <li>
+          <h3>Festpreis statt Stundenzettel</h3>
+          <p>Der Preis steht fest, bevor jemand losfährt. Es wird nicht nachgerechnet.</p>
+        </li>
+        <li>
+          <h3>Verbindliches Zeitfenster</h3>
+          <p>Sie bekommen ein Fenster von zwei Stunden, nicht einen ganzen Tag.</p>
+        </li>
+        <li>
+          <h3>Möbel Sachs, seit <span data-jahr>[JAHR PLATZHALTER]</span> in der Region</h3>
+          <p>Wir arbeiten dort, wo wir auch bekannt sind: im Main-Taunus-Kreis.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       6. Häufige Fragen
+       ============================================================ -->
+  <section aria-labelledby="fragen">
+    <div class="inhalt">
+      <h2 id="fragen">Häufige Fragen</h2>
+      <dl class="faq">
+        <dt>Was kostet die Anfahrt?</dt>
+        <dd>Nichts. Die Anfahrt ist im Festpreis enthalten, solange Sie im Main-Taunus-Kreis wohnen.</dd>
+
+        <dt>Was ist, wenn es länger dauert als geplant?</dt>
+        <dd>Dann gilt trotzdem der vereinbarte Festpreis. Die Zeitangaben in der Preistabelle sind unsere Kalkulation, nicht Ihr Risiko.</dd>
+
+        <dt>Was ist, wenn ein Ersatzteil fehlt?</dt>
+        <dd>Der Monteur nennt Ihnen das genaue Teil mit Bezeichnung, damit Sie es bestellen können. Die Montage übernehmen wir im Zweittermin für <span data-preis="zweittermin">149 €</span>.</dd>
+
+        <dt>Welche Orte werden bedient?</dt>
+        <dd>Den gesamten Main-Taunus-Kreis: Hofheim, Kelkheim, Bad Soden, Eschborn, Schwalbach, Sulzbach, Liederbach, Kriftel, Hattersheim, Hochheim, Flörsheim und Eppstein.</dd>
+
+        <dt>Wie schnell bekomme ich einen Termin?</dt>
+        <dd>Mit festem Termin meist innerhalb von drei bis fünf Werktagen. Mit Express heute oder morgen, gegen <span data-preis="express">79 €</span> Aufschlag. Ohne Terminwunsch innerhalb von 14 Tagen.</dd>
+
+        <dt>Kann ich mehrere Sachen auf einmal machen lassen?</dt>
+        <dd>Ja. Jede weitere Kleinigkeit im selben Termin kostet <span data-preis="weitereKleinigkeit">69 €</span>. Schreiben Sie einfach alles in die Anfrage.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Abschluss mit zweitem Button
+       ============================================================ -->
+  <section class="abschluss" aria-labelledby="anfrage">
+    <div class="inhalt">
+      <h2 id="anfrage">Reparatur anfragen</h2>
+      <p class="versprechen" style="margin-bottom:32px">Foto hochladen, Festpreis erhalten, Termin wählen.</p>
+      <!-- FORMULAR_URL: siehe KONFIG oben -->
+      <a class="knopf" data-formular href="FORMULAR_URL">Reparatur anfragen</a>
+      <p class="knopf-hinweis">Lieber telefonisch? <a data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a>, Montag bis Freitag von 8 bis 17 Uhr.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============================================================
+     7. Fußzeile
+     ============================================================ -->
+<footer class="fuss">
+  <div class="inhalt">
+    <p><a class="tel" data-tel-link href="tel:+496192000000"><span data-tel>06192 000000</span></a></p>
+    <p class="neben">Sachs Reparaturen ist ein Betrieb von Möbel Sachs. Wir arbeiten im Main-Taunus-Kreis.</p>
+    <ul>
+      <li><a href="impressum.html">Impressum</a></li>
+      <li><a href="datenschutz.html">Datenschutz</a></li>
+    </ul>
+    <p class="neben">© <span data-jahr-aktuell>2026</span> Möbel Sachs</p>
+  </div>
+</footer>
+
+<!-- Fester Telefon-Button, nur auf dem Handy sichtbar -->
+<div class="tel-leiste">
+  <a data-tel-link href="tel:+496192000000">Anrufen: <span data-tel>06192 000000</span></a>
+</div>
+
+<script>
+/* ==================================================================
+   Setzt Preise, Telefonnummer, Formular-Adresse und Gründungsjahr
+   aus dem KONFIG-Block ganz oben in die Seite ein.
+   Hier muss nichts geändert werden.
+   ================================================================== */
+(function () {
+  var k = KONFIG;
+
+  // Preise: "119" wird zu "119 €", beim Express-Aufschlag zu "+79 €"
+  var preisFelder = document.querySelectorAll('[data-preis]');
+  for (var i = 0; i < preisFelder.length; i++) {
+    var feld = preisFelder[i];
+    var wert = k.preise[feld.getAttribute('data-preis')];
+    if (wert === undefined) continue;
+    feld.textContent = (feld.hasAttribute('data-plus') ? '+' : '') + wert + ' €';
+  }
+
+  // Telefonnummer: Anzeige und Wählnummer
+  var telTexte = document.querySelectorAll('[data-tel]');
+  for (var j = 0; j < telTexte.length; j++) {
+    telTexte[j].textContent = k.telefonAnzeige;
+  }
+  var telLinks = document.querySelectorAll('[data-tel-link]');
+  for (var l = 0; l < telLinks.length; l++) {
+    telLinks[l].setAttribute('href', 'tel:' + k.telefonWaehlen);
+  }
+
+  // Alle Buttons zeigen auf das Online-Formular
+  var formularLinks = document.querySelectorAll('[data-formular]');
+  for (var m = 0; m < formularLinks.length; m++) {
+    formularLinks[m].setAttribute('href', k.formularUrl);
+  }
+
+  // Gründungsjahr und laufendes Jahr
+  var jahrFelder = document.querySelectorAll('[data-jahr]');
+  for (var n = 0; n < jahrFelder.length; n++) {
+    jahrFelder[n].textContent = k.gruendungsjahr;
+  }
+  var aktuell = document.querySelectorAll('[data-jahr-aktuell]');
+  for (var o = 0; o < aktuell.length; o++) {
+    aktuell[o].textContent = new Date().getFullYear();
+  }
+})();
+</script>
+
+</body>
+</html>
